@@ -1,0 +1,1 @@
+ Webpages=new Mongo.Collection("image");

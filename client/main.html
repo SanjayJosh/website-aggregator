@@ -1,0 +1,329 @@
+<head>
+  <title>Webinator</title>
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Suez+One">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand:700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Vollkorn:700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Trocchi' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+ <!--
+  {{> top}}
+  {{> navbar}}
+  {{> putpermit}}
+  {{> list}}
+
+ --> 
+</body>
+<template name="layout">
+{{> yield "top"}}
+{{>yield  "navbar"}}
+{{>yield  "putpermit"}}
+{{>yield "main"}}
+{{> yield "button"}}
+</template>
+<template name="top">
+	
+	<div class="jumbotron text-center top-stuff">
+	
+	<p>WEBINATOR</p>
+		
+	</div>
+</template>
+<template name="navbar">
+	<div class="wrapper">
+	<nav class="navbar navbar-default " id="nav-eff">
+  		<div class="container-fluid">	
+  			<ul class="nav navbar-nav">
+  			<li>
+  				<a href="/" class="unset-filter">
+				  <span class="glyphicon glyphicon-home nav-glyph" aria-hidden="true">
+		  		 Home </span>
+				  </a>
+  			</li>
+   			<li>
+  				<a href="#">
+				  <span class="glyphicon glyphicon-user nav-glyph" aria-hidden="true">
+		  		 {{> loginButtons}} </span>
+				</a>
+			</li>
+ 			
+  			</ul>
+  			<!--
+  			<ul class="nav navbar-nav navbar-right ">
+  				<li>
+  					<a href="#" class="na">
+  						{{#if currentUser}}
+							Welcome {{getUser}} !!
+						{{/if}}	
+  					</a>
+  				</li>
+  			</ul>
+  			-->
+  		</div>
+
+  	</nav>	
+  	</div>
+</template>
+
+<template name="navbar2">
+  <div class="wrapper">
+  <nav class="navbar navbar-default " id="nav-eff">
+      <div class="container-fluid"> 
+        <ul class="nav navbar-nav">
+        <li>
+          <a href="/" class="unset-filter">
+          <span class="glyphicon glyphicon-home nav-glyph" aria-hidden="true">
+           Home </span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+          <span class="glyphicon glyphicon-user nav-glyph" aria-hidden="true">
+           {{> loginButtons}} </span>
+        </a>
+      </li>
+      
+        </ul>
+        <!--
+        <ul class="nav navbar-nav navbar-right ">
+          <li>
+            <a href="#" class="na">
+              {{#if currentUser}}
+              Welcome {{getUser}} !!
+            {{/if}} 
+            </a>
+          </li>
+        </ul>
+        -->
+      </div>
+
+    </nav>  
+    </div>
+</template>
+<template name="putpermit">
+	<div class="container-fluid permit text-center">
+
+		{{#if currentUser}}
+			<div> 
+			<p>Hi {{getUser}} ! </p>
+			<p>Welcome to Webinator</p>
+			<button type="submit"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+			  <span class="glyphicon glyphicon glyphicon-random" aria-hidden="true">
+	  		  </span>
+	  		  Click here to add a new link!
+			</button>
+			</div>
+
+		{{/if}}	
+
+	</div>	
+
+
+
+    <!--Modal-->
+      <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add a website</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form class="form js-add" role="form">
+                         <div class="form-group">
+                          <label >Url:</label>
+                          <input type="url" class="form-control" name="url">
+                        </div>
+                        <label class="option">You may choose to leave the following inputs blank
+                        (To enable web-scraping.)
+                        </label>
+                        <label class="option">
+                        Warning:You must be connected to the internet for this to work
+                        </label>
+                        <label class="option">
+                        (Works only if meta tags are present for a site)
+                        </label>
+
+                         <div class="form-group">
+                          <label >Title:</label>
+                          <input type="text" class="form-control" placeholder="You may leave it blank" name="title">
+
+                        </div>  
+                        <div class="form-group">
+                          <label >Description:</label>
+                           <textarea placeholder="You may leave it blank" class="form-control" rows="3" id="desc"></textarea>
+                          
+                        </div>
+                        <button type="submit" class="btn btn-success ">Submit</button>  
+                    </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+</template>
+<template name="list">
+    <div class="list-top">
+      {{#if notempty}}
+      <div class="container"><h3 >VIEW WEBSITES</h3>
+      </div>
+      {{/if}}
+      
+      {{#each pages}}
+      <div class="container list-mid" id="{{_id}}">
+      <p> 
+        Added by: 
+          <a href="#" class="user-filter">{{display createdBy}}</a>
+      </p>
+      <p> 
+        TITLE :
+        <a href="/{{_id}}"> {{title}}</a> 
+      </p>
+        url:
+
+          <div class="well well-sm">
+              <a target="_blank" href="{{url}}">{{url}}</a>
+          </div>
+        
+        
+        <p class="time">Added on :{{createdOn}} 
+        </p>
+        {{#if currentUser}}
+        <div>
+          <button class="js-pressup ff">
+           
+           <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"> 
+           
+           </span>
+           
+          </button>
+           <span class="up">{{ups _id}}</span> 
+           <button class="js-pressdown ff">
+             <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"> 
+             </span> 
+
+           </button>
+           <span class="down">{{downs _id}}</span> 
+
+
+           <span class="tally">Tally:{{tally _id}}</span> 
+         </div>
+         {{/if}}
+        </div> 
+      
+      {{/each}} 
+
+
+      
+
+    </div>    
+</template>
+<template name="details">
+  <div class="details">
+    <div class="container">
+      <div>
+      <p>TITLE</p>
+      <p class="detail-title">{{title}}</p> 
+      </div> 
+      <div>
+      <p>url</p>
+      <p class="detail-url"><a href="{{url}}" target="_blank">{{url}}</a> </p>  
+      </div>
+      <div >
+      <p>Description</p>
+        <div class="container  well well-lg detail-desc">
+          {{desc}}
+        </div>        
+
+      </div> 
+      <div>
+      <p>Added by:</p>
+      <p> {{display createdBy}}</p>
+
+      </div>
+      <div>
+       <p>Added on:</p>
+       <p> {{createdOn}}</p>
+       </div>
+       {{#if currentUser}}
+       <div class="detail-like">
+          <button  style="border-radius:50%;" class="js-pressup ff">
+           
+           <span style="border-radius:50%;" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"> 
+           
+           </span>
+           
+          </button>
+           <span class="up">{{ups _id}}</span> 
+           <button  style="border-radius:50%;" class="js-pressdown ff">
+             <span style="border-radius:50%;" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"> 
+             </span> 
+
+           </button>
+           <span class="down">{{downs _id}}</span> 
+
+
+           <span class="tally">Tally:{{tally _id}}</span> 
+         </div> 
+         {{/if}}
+
+
+
+
+      <div class="comments">
+       <p>Comments</p>
+       <div class="container-fluid">
+            {{#if currentUser}}          
+           <form class="form js-add-comment" role="form">
+            <div class="form-group">
+            
+             <textarea placeholder="Add a comment" class="form-control comment-sz" rows="3" id="comm"></textarea>
+            
+          </div>
+          <button type="submit" class="btn btn-success ">Submit</button>  
+
+
+           </form>
+           {{/if}}
+
+        {{#each comment _id}}  
+           
+            <div class="single-comment container-fluid ">
+             <p class="p-right">Added on: <span class="spec">{{createdOn}}</span></p>
+            <p class="p-left"><span class="spec">{{display createdBy}}</span> comments:</p>
+           <div class="well well-lg the-comment">{{data}}</div>
+            </div>
+            
+            
+        {{/each}}
+
+       </div>
+     </div> 
+    </div>
+
+
+
+  </div>
+</template>
+<!--
+GOTTA DELETE THIS
+<template name="hello">
+  <button>Click Me</button>
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="info">
+  <h2>Learn Meteor!</h2>
+  <ul>
+    <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
+    <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
+    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
+    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
+  </ul>
+</template>
+-->
